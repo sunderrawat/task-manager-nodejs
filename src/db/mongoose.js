@@ -5,6 +5,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
   useCreateIndex: true,
 });
 
+
 // create a user model
 // const User = mongoose.model('User', {
 //   name: {
@@ -45,18 +46,18 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
 
 // //create a tasks model
 
-const Task = mongoose.model('Tasks', {
-  Description: {
-    type: String,
-    required: true,
-    trim: true,
-    minLength: [3, 'length more than 3']
-  },
-  Completed: {
-    type: Boolean,
-    default: false
-  },
-});
+// const Task = mongoose.model('Tasks', {
+//   Description: {
+//     type: String,
+//     required: true,
+//     trim: true,
+//     minLength: [3, 'length more than 3']
+//   },
+//   Completed: {
+//     type: Boolean,
+//     default: false
+//   },
+// });
 
 // const task1 = new Task({
 //   Description: 'Dud pilana',
