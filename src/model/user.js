@@ -50,6 +50,17 @@ const userSchema = mongoose.Schema({
   ],
 });
 
+//hiding private data from user we can fun name toJSON because this name provie nothing changement in routes
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.tokens;
+
+  return userObject;
+};
+
 //genrating web tokens
 userSchema.methods.genrateAutToken = async function () {
   const user = this;
