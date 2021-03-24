@@ -14,14 +14,31 @@ router.post('/users', async (req, res) => {
   }
 });
 
+//signup router
+router.post('/users/signup', async (req, res) => {
+  const existingUser = await User.findOne({ email: req.body.email });
+  if (existingUser) {
+    return res.status(208).send('Already registered !');
+  }
+  try {
+    const user = new User(req.body);
+    const token = await user.genrateAutToken();
+    await user.save();
+    res.status(201).send(user);
+  } catch (e) {
+    res.status(201).send(e);
+  }
+});
+
 // user login post request
 router.post('/users/login', async (req, res) => {
   try {
     const user = await User.findByCredentials(
       req.body.email,
       req.body.password
-      );
-      res.send(user);
+    );
+    const token = await user.genrateAutToken();
+    res.send({ user, token });
   } catch (e) {
     res.status(400).send(e);
   }
