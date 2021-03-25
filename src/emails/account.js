@@ -1,7 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 
-const sendgridApiKey =
-  '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';
+const sendgridApiKey = process.env.SENDGRID_API_KEY;
 
 sgMail.setApiKey(sendgridApiKey);
 
@@ -23,21 +22,20 @@ const sendWelcomeEmail = async (email, name) => {
 };
 
 const sendCancelationEmail = async (email, name) => {
-   try {
-     await sgMail.send({
-       to: email,
-       from: 'sunderrawat7777@gmail.com',
-       subject: 'Bye from Task Manager App',
-       text: `Hello ${name}, See you again`,
-     });
-   } catch (error) {
-     console.error(error);
+  try {
+    await sgMail.send({
+      to: email,
+      from: 'sunderrawat7777@gmail.com',
+      subject: 'Bye from Task Manager App',
+      text: `Hello ${name}, See you again`,
+    });
+  } catch (error) {
+    console.error(error);
 
-     if (error.response) {
-       console.error(error.response.body);
-     }
-   }
+    if (error.response) {
+      console.error(error.response.body);
+    }
+  }
 };
 
 module.exports = { sendWelcomeEmail, sendCancelationEmail };
-
