@@ -15,11 +15,35 @@ router.post('/tasks', auth, async (req, res) => {
   }
 });
 
-//reading endpoint for fetching all tasks
+// reading endpoint for fetching all tasks
+//GET tasks?completed query
+//GET tasks?limit=2&skip2
 router.get('/tasks', auth, async (req, res) => {
   try {
-    const tasks = await Task.find({ owner: req.user._id });
-    res.send(tasks);
+    const match = {};
+    const sort = {};
+
+    if (req.query.completed === 'true' || req.query.completed === 'false') {
+      match.completed = req.query.completed === 'true';
+    }
+
+    if (req.query.sortBy) {
+      const parts = req.query.sortBy.split(':');
+      sort[parts[0]] = parts[1] === 'desc' ? -1 : 1;
+    }
+    // const tasks = await Task.find({ owner: req.user._id });
+    await req.user
+      .populate({
+        path: 'tasks',
+        match,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip),
+          sort
+        },
+      })
+      .execPopulate();
+    res.send(req.user.tasks);
   } catch (e) {
     res.status(500).send();
   }

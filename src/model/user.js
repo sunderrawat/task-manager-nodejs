@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Task = require('./task');
 
-const userSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+const userSchema = Schema({
   name: {
     type: String,
     required: true,
@@ -49,10 +50,12 @@ const userSchema = mongoose.Schema({
       },
     },
   ],
+}, {
+  timestamps: true
 });
 
 userSchema.virtual('tasks', {
-  ref: 'Task',
+  ref: 'Tasks',
   localField: '_id',
   foreignField: 'owner',
 });
