@@ -14,6 +14,15 @@ app.listen(port, () => {
   console.log(`App is started on server port ${port}`);
 });
 
+const multer = require('multer');
+const uploads = multer({
+  dest: 'images',
+});
+
+app.post('/upload', uploads.single('avtar'), (req,res)=>{
+  res.send();
+})
+
 // const User = require('./model/user');
 // const Task = require('./model/task');
 
